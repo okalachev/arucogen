@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+		<script type="text/javascript" src="main.js"></script>
+		<link rel="stylesheet" href="main.css"/>
+		<meta name="description" content="Generate ArUco marker for printing with dictionary select">
+		<meta name="keywords" content="ArUco, OpenCV, marker, generate, dictionary, print, computer vision, robotics">
+		<title>Online ArUco markers generator</title>
+	</head>
+	<body>
+		<h1>ArUco markers generator!</h1>
+		<form class="setup">
+			<div class="field">
+				<label for="frm-dict">Dictionary:</label>
+				<select name="dict" id="frm-dict">
+					<optgroup label="Standard dictionaries">
+						<option value="aruco" data-width="5" data-height="5">Original ArUco</option>
+						<option value="4x4_1000" data-width="4" data-height="4">4x4 (50, 100, 250, 1000)</option>
+						<option value="5x5_1000" data-width="5" data-height="5">5x5 (50, 100, 250, 1000)</option>
+						<option value="6x6_1000" data-width="6" data-height="6">6x6 (50, 100, 250, 1000)</option>
+						<option value="7x7_1000" data-width="7" data-height="7">7x7 (50, 100, 250, 1000)</option>
+					</optgroup>
+				</select>
+			</div>
+			<div class="field">
+				<label for="frm-id">Marker ID:</label>
+				<input id="frm-id" name="id" type="number" min="0" max="1000" value="0">
+			</div>
+			<div class="field">
+				<label for="frm-size">Marker size, mm:</label>
+				<input id="frm-size" name="size" type="number" min="10" max="5000" value="100">
+			</div>
+		</form>
+
+		<div class="marker-id"></div>
+		<div class="marker"></div>
+
+		<div class="tools">
+			<a href="" class="save-button">Save</a> this marker as SVG, or
+			<a href="javascript:window.print()">open</a> standard browser's print dialog to print or get the PDF.
+		</div>
+		<footer>
+			See <a href="https://docs.opencv.org/3.2.0/d5/dae/tutorial_aruco_detection.html">OpenCV documentation</a>
+			to learn about ArUco markers.<br>
+			Author: <a href="http://chev.me">Oleg Kalachev</a>. Hosted on <a class="github" href="">GitHub</a>.
+		</footer>
+	</body>
+</html>

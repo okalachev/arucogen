@@ -1,0 +1,125 @@
+@media print {
+	body {
+		-webkit-print-color-adjust: exact;
+		color-adjust: exact;
+		background: white;
+	}
+
+	body > * {
+		display: none;
+	}
+
+	.marker-id {
+		display: block !important;
+		text-align: center;
+	}
+
+	.marker {
+		border: none !important;
+		display: block;
+	}
+}
+
+body {
+	font-family: sans-serif;
+	padding: 0;
+	margin: 0;
+}
+
+h1 {
+	font-weight: normal;
+	text-align: center;
+	font-size: 22px;
+	margin: 20px;
+	margin-bottom: 40px;
+}
+
+a {
+	color: #4761c7;
+	text-decoration: none;
+}
+
+.setup {
+	margin: 0 10px;
+}
+
+.setup input {
+	font-weight: 300;
+	margin: 0;
+	margin-left: 20px;
+	font-size: 15px;
+	padding: 2px;
+	width: 80px;
+	vertical-align: -1px;
+}
+
+.setup select {
+	font-weight: 300;
+	margin: 0;
+	margin-left: 20px;
+	font-size: 17px;
+	vertical-align: -1px;
+}
+
+.setup {
+	margin: 20px auto;
+	width: 440px;
+}
+
+.setup .field {
+	margin: 10px 0;
+}
+
+.setup label {
+	vertical-align: middle;
+	font-size: 15px;
+	width: 150px;
+	text-align: right;
+	display: inline-block;
+	color: #858585;
+}
+
+.tools {
+	margin: 20px;
+	text-align: center;
+	line-height: 20px;
+}
+
+.tools a {
+	font-weight: bold;
+}
+
+.marker-id {
+	display: none;
+}
+
+.marker {
+	text-align: center;
+	background: white;
+	margin: 40px;
+}
+
+.marker table {
+	border: none;
+	border-collapse: collapse;
+	margin: 0;
+	padding: 0;
+	width: 100mm;
+	height: 100mm;
+}
+
+.marker table td {
+	margin: 0;
+	padding: 0;
+	border: none;
+	background: white;
+}
+
+footer {
+	font-weight: normal;
+	margin: 20px;
+	margin-top: 60px;
+	text-align: right;
+	font-size: 13px;
+	color: #919191;
+}
