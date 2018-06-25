@@ -1,17 +1,3 @@
-function generateMarker(width, height, bits) {
-	var html = '<table>';
-	for (var i = 0; i < height; i++) {
-		html += '<tr>';
-		for (var j = 0; j < width; j++) {
-			var cl = bits[i * height + j] ? 'white' : 'black';
-			html += '<td class="' + cl + '"></td>';
-		}
-		html += '</tr>';
-	}
-	html += '</table>';
-	return html;
-}
-
 function generateMarkerSvg(width, height, bits) {
 	var svg = $('<svg/>').attr({
 		viewBox: '0 0 ' + (width + 2) + ' ' + (height + 2),
