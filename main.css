@@ -122,4 +122,7 @@ footer {
 	text-align: right;
 	font-size: 13px;
 	color: #919191;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
 }
