@@ -1,25 +1,3 @@
-@media print {
-	body {
-		-webkit-print-color-adjust: exact;
-		color-adjust: exact;
-		background: white;
-	}
-
-	body > * {
-		display: none;
-	}
-
-	.marker-id {
-		display: block !important;
-		text-align: center;
-	}
-
-	.marker {
-		border: none !important;
-		display: block;
-	}
-}
-
 body {
 	font-family: sans-serif;
 	padding: 0;
@@ -125,4 +103,26 @@ footer {
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-start;
+}
+
+@media print {
+	body {
+		-webkit-print-color-adjust: exact;
+		color-adjust: exact;
+		background: white;
+	}
+
+	body > * {
+		display: none;
+	}
+
+	.marker-id {
+		display: block !important;
+		text-align: center;
+	}
+
+	.marker {
+		border: none !important;
+		display: block;
+	}
 }
