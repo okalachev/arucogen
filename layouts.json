@@ -1,0 +1,91 @@
+{
+    "layout1":{
+    "name":"3 split",
+    "width":200,
+    "height": 320,
+    "margin":1,
+    "markers": {
+        "marker1": {
+            "top": 0,
+            "left": 0,
+            "size": 80
+        },
+        "marker2": {
+            "top": 0,
+            "left": 100,
+            "size": 80
+        },
+        "marker3": {
+            "top": 100,
+            "left": 0,
+            "size": 180
+        }
+    }},
+
+    "layout2":{
+    "name":"6 split",
+    "width":200,
+    "height": 320,
+    "margin":1,
+    "markers": {
+        "marker1": {
+            "top": 0,
+            "left": 0,
+            "size": 80
+        },
+        "marker2": {
+            "top": 100,
+            "left": 0,
+            "size": 80
+        },
+        "marker3": {
+            "top": 0,
+            "left": 100,
+            "size": 80
+        },
+        "marker4": {
+            "top": 100,
+            "left": 100,
+            "size": 80
+        },
+        "marker5": {
+            "top": 200,
+            "left": 0,
+            "size": 80
+        },
+        "marker6": {
+            "top": 200,
+            "left": 100,
+            "size": 80
+        }
+    }},
+
+    "layout3":{
+        "name":"3 split",
+        "width":200,
+        "height": 320,
+        "margin":1,
+        "markers": {
+            "marker1": {
+                "top": 0,
+                "left": 0,
+                "size": 110
+            },
+            "marker2": {
+                "top": 0,
+                "left": 130,
+                "size": 50
+            },
+            "marker4": {
+                "top": 70,
+                "left": 130,
+                "size": 50
+            },
+            "marker3": {
+                "top": 140,
+                "left": 0,
+                "size": 140
+            }
+        }}
+    
+    }

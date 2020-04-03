@@ -2,6 +2,8 @@ body {
 	font-family: sans-serif;
 	padding: 0;
 	margin: 0;
+	display: flex;
+	flex-direction: row;
 }
 
 h1 {
@@ -125,4 +127,42 @@ footer {
 		border: none !important;
 		display: block;
 	}
+}
+
+#print-layouts {
+	width: 35mm;
+	border: 1 thin gray;
+	display: flex;
+	flex-direction: column;
+}
+
+.print-layout {
+	width: 21.0mm;
+	height: 29.7mm;
+	border-style: solid;
+	border-color: gray;
+	margin: 1.5mm;
+	position: relative;
+}
+
+.print-layout:hover {
+	transform: scale(1.05);
+	transition: all .2s ease;
+}
+
+.marker-preview {
+	background-color: lightslategray;
+	position: absolute;
+}
+
+.selected > .marker-preview  {
+	background-color: rgb(50, 178, 201);
+}
+
+.pages {
+	border-style: dashed;
+	border-width: 2px;
+	border-color: linen;
+	height:297mm;
+	width: 210mm;
 }
