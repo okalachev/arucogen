@@ -76,7 +76,7 @@ a {
 .marker {
 	text-align: center;
 	background: white;
-	margin: 40px;
+	margin: 0px;
 }
 
 .marker table {
@@ -159,10 +159,59 @@ footer {
 	background-color: rgb(50, 178, 201);
 }
 
-.pages {
+.printPage {
 	border-style: dashed;
 	border-width: 2px;
-	border-color: linen;
+	border-color: rgb(243, 193, 142);
 	height:297mm;
 	width: 210mm;
+	margin: 4px;
+	position: relative;
 }
+
+#printPages{
+	display: flex;
+	flex-direction: column;
+}
+
+.marker-container{
+	position: absolute;
+	border-style: dashed;
+	border-color: whitesmoke;
+	border-width: 2px;
+
+}
+
+.marker {
+	/* padding: 6mm; */
+	/* margin: 1mm; */
+}
+
+.page {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+@page {
+	size: A4;
+	margin: 0;
+}
+
+@media print {
+	body * {
+	  visibility: hidden;
+	}
+	#printPages, #printPages * {
+	  visibility: visible;
+	}
+	#printPages {
+	  position: absolute;
+	  left: 0;
+	  top: 0;
+	}
+	.printPage {
+		border-width: 0px;
+		margin: 0px;
+	}
+	  }

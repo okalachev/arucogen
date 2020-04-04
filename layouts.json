@@ -8,17 +8,17 @@
         "marker1": {
             "top": 0,
             "left": 0,
-            "size": 80
+            "size": 85
         },
         "marker2": {
             "top": 0,
-            "left": 100,
-            "size": 80
+            "left": 95,
+            "size": 85
         },
         "marker3": {
-            "top": 100,
-            "left": 0,
-            "size": 180
+            "top": 105,
+            "left": 3,
+            "size": 175
         }
     }},
 
