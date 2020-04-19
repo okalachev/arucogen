@@ -33,7 +33,7 @@ a {
 	vertical-align: -1px;
 }
 
-.setup select {
+.setup select, .setup textarea {
 	font-weight: 300;
 	margin: 0;
 	margin-left: 20px;
@@ -47,7 +47,8 @@ a {
 }
 
 .setup .field {
-	margin: 10px 0;
+	margin: 10px 20px 20px 20px;
+	display: flex;
 }
 
 .setup label {

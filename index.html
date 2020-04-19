@@ -30,8 +30,9 @@
 				</select>
 			</div>
 			<div class="field">
-				<label for="frm-id">Marker ID:</label>
-				<input id="frm-id" name="id" type="number" min="0" max="999" value="0">
+				<label for="frm-id">Marker IDs:<br>(comma separated)</label>
+				<textarea id="frm-id" name="id" value="." rows="3" cols="23" onchange="showMarkers()"></textarea>
+				
 			</div>
 			<div class="field">
 				<label for="frm-size">Margin size, mm:</label>

@@ -63,7 +63,7 @@ var loadLayouts = $.getJSON('layouts.json', function (data) {
 
 function renderMarkers() {
 	var dictSelect = $('.setup select[name=dict]');
-	var markerIdInput = $('.setup input[name=id]');
+	var markerIdInput = $('.setup textarea[name=id]');
 	var sizeInput = $('.setup input[name=size]');
 
 	function updateMarker() {
@@ -75,26 +75,12 @@ function renderMarkers() {
 
 		// Wait until dict data is loaded
 		loadDict.then(function () {
-			// Generate marker
-			var svg = generateArucoMarker(width, height, dictName, markerId, size);
-			// svg.attr({
-			// 	width: size + 'mm',
-			// 	height: size + 'mm'
-			// });
-			// $('.marker').html(svg[0].outerHTML);
-			// $('.save-button').attr({
-			// 	href: 'data:image/svg;base64,' + btoa(svg[0].outerHTML.replace('viewbox', 'viewBox')),
-			// 	download: dictName + '-' + markerId + '.svg'
-			// });
-			// $('.marker-id').html('ID ' + markerId);
 
-			// generate random markers
-			//TODO read markers from input (comma separated)
 			var markers = document.getElementsByClassName('marker');
 			var markerIDs = document.getElementsByClassName('marker-id');
 
 			for (i = 0; i< markers.length; i++){
-				markerId = Math.floor(Math.random() * 1000);
+				markerId = markerIDs[i].getAttribute('val'); //Math.floor(Math.random() * 1000);
 				svg = generateArucoMarker(width, height, dictName, markerId, size);
 
 				markers[i].innerHTML = svg[0].outerHTML;
@@ -188,46 +174,54 @@ function showMarkers() {
 	markerPositions = coll[0].getElementsByClassName('marker-preview');
 	
 
-	// TODO count markers from the input box
-	markersCount =100; 
+	var markerIdInput = $('.setup textarea[name=id]');
+	var arrIDs = markerIdInput.val().trim().split(',');
+	markersCount =arrIDs.length; 
+	if (markerIdInput.val().trim() == "")	markersCount = 0;
 
 	pagesCount = 0;
 
 	// loop list of marker ids
-	for (xMarker = 0; xMarker<markersCount; xMarker++){
-		if (xMarker % Number(markersPerPage) == 0) {
-			// create new page
-			var printPage = document.createElement('div');
-			printPage.setAttribute('class','printPage');
+	xMarker = -1;
+	for (xi = 0; xi<markersCount; xi++){
+		xID = parseInt(arrIDs[xi].trim());
+		if (!isNaN(xID) && arrIDs[xi].trim() != "" && xID>=0 && xID <=999) {
+			xMarker++;
 
-			printPages.appendChild(printPage);
+			if (xMarker % Number(markersPerPage) == 0) {
+				// create new page
+				var printPage = document.createElement('div');
+				printPage.setAttribute('class','printPage');
+
+				printPages.appendChild(printPage);
+			}
+
+			var markerContainer = document.createElement('div');
+			markerContainer.setAttribute('class', 'marker-container');
+			printPage.appendChild(markerContainer);
+
+			// add marker ID
+			var markerID = document.createElement('div');
+			markerID.setAttribute('class','marker-id');
+			markerID.setAttribute('val',arrIDs[xi]);
+			markerContainer.appendChild(markerID);
+			
+			// add marker
+			var marker = document.createElement('div');
+			marker.setAttribute('class','marker');
+			markerContainer.appendChild(marker);
+			
+			markerContainer.setAttribute('style','left: ' + markerPositions[xMarker % Number(markersPerPage)].getAttribute('markerLeft') + 'mm; ' +
+										'top: ' + markerPositions[xMarker % Number(markersPerPage)].getAttribute('markerTop') + 'mm; ' +
+										'width: ' + markerPositions[xMarker % Number(markersPerPage)].getAttribute('markerWidth') + 'mm; ' +
+										'height: ' + markerPositions[xMarker % Number(markersPerPage)].getAttribute('markerHeight') + 'mm; ');
+
+
+			marker.setAttribute('style','margin:' +  Number(sizeInput.val()) + 'mm;')
 		}
-
-		var markerContainer = document.createElement('div');
-		markerContainer.setAttribute('class', 'marker-container');
-		printPage.appendChild(markerContainer);
-
-		// add marker ID
-		var markerID = document.createElement('div');
-		markerID.setAttribute('class','marker-id');
-		markerContainer.appendChild(markerID);
-		
-		// add marker
-		var marker = document.createElement('div');
-		marker.setAttribute('class','marker');
-		markerContainer.appendChild(marker);
-		
-		markerContainer.setAttribute('style','left: ' + markerPositions[xMarker % Number(markersPerPage)].getAttribute('markerLeft') + 'mm; ' +
-									'top: ' + markerPositions[xMarker % Number(markersPerPage)].getAttribute('markerTop') + 'mm; ' +
-									'width: ' + markerPositions[xMarker % Number(markersPerPage)].getAttribute('markerWidth') + 'mm; ' +
-									'height: ' + markerPositions[xMarker % Number(markersPerPage)].getAttribute('markerHeight') + 'mm; ');
-
-
-		marker.setAttribute('style','margin:' +  Number(sizeInput.val()) + 'mm;')
 	}
 
 	renderMarkers();
 };
 
 //TODO save as SVG all markers
-//TODO allow user to enter comma separated IDs
