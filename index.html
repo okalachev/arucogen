@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script type="text/javascript" src="main.js"></script>
-		<link rel="stylesheet" href="main.css"/>
-		<meta name="description" content="Generate ArUco marker for printing with dictionary selection">
-		<meta name="keywords" content="ArUco, OpenCV, marker, generate, dictionary, print, computer vision, robotics">
-		<title>Online ArUco markers generator</title>
-	</head>
-	<body>
+
+<head>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="main.css" />
+	<script type="text/javascript" src="main.js"></script>
+	<meta name="description" content="Generate ArUco marker for printing with dictionary selection">
+	<meta name="keywords" content="ArUco, OpenCV, marker, generate, dictionary, print, computer vision, robotics">
+	<title>Online ArUco markers generator</title>
+</head>
+
+<body>
+	<nav id="print-layouts">
+	</nav>
+	<nav class="page">
 		<h1>ArUco markers generator!</h1>
 		<form class="setup">
 			<div class="field">
@@ -16,39 +21,56 @@
 				<select name="dict" id="frm-dict">
 					<optgroup label="Standard dictionaries">
 						<option value="aruco" data-width="5" data-height="5">Original ArUco</option>
-						<option selected value="4x4_1000" data-width="4" data-height="4">4x4 (50, 100, 250, 1000)</option>
+						<option value="4x4_1000" data-width="4" data-height="4">4x4 (50, 100, 250, 1000)
+						</option>
 						<option value="5x5_1000" data-width="5" data-height="5">5x5 (50, 100, 250, 1000)</option>
-						<option value="6x6_1000" data-width="6" data-height="6">6x6 (50, 100, 250, 1000)</option>
+						<option selected value="6x6_1000" data-width="6" data-height="6">6x6 (50, 100, 250, 1000)</option>
 						<option value="7x7_1000" data-width="7" data-height="7">7x7 (50, 100, 250, 1000)</option>
 					</optgroup>
 				</select>
 			</div>
 			<div class="field">
-				<label for="frm-id">Marker ID:</label>
-				<input id="frm-id" name="id" type="number" min="0" max="999" value="0">
+				<label for="frm-id">Marker IDs:<br>(comma separated)</label>
+				<textarea id="frm-id" name="id" value="." rows="3" cols="23" onchange="showMarkers()"></textarea>
+				
 			</div>
 			<div class="field">
-				<label for="frm-size">Marker size, mm:</label>
-				<input id="frm-size" name="size" type="number" min="10" max="5000" value="100">
+				<label for="frm-size">Margin size, mm:</label>
+				<input id="frm-size" name="size" type="number" min="0" max="50" value="10" onchange="showMarkers()">
 			</div>
 		</form>
 
-		<div class="marker-id"></div>
-		<div class="marker"></div>
-
 		<div class="tools">
-			<a href="" class="save-button">Save</a> this marker as SVG, or
+			<a href="" class="save-button">Save</a> first marker as SVG, or
 			<a href="javascript:window.print()">open</a> standard browser's print dialog to print or get the PDF.
 		</div>
+
+		<div id="printPages">
+			<div class="page">
+				<div class="marker-id"></div>
+				<div class="marker"></div>
+			</div>
+		</div>
+
 		<footer>
 			<div>
-				If you like this project, please <a href="https://github.com/okalachev/arucogen"><nobr>★ it on GitHub</nobr></a>!
+				If you like this project, please <a href="https://github.com/okalachev/arucogen">
+					<nobr>★ it on GitHub</nobr>
+				</a>!
 			</div>
 			<div>
-				See <a href="https://docs.opencv.org/3.2.0/d5/dae/tutorial_aruco_detection.html">OpenCV documentation</a>
+				See <a href="https://docs.opencv.org/3.2.0/d5/dae/tutorial_aruco_detection.html">OpenCV
+					documentation</a>
 				to learn about ArUco markers.<br>
 				Author: <a href="http://chev.me">Oleg Kalachev</a>.</div>
 		</footer>
-		<!-- Yandex.Metrika counter --> <script type="text/javascript" > (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter37286925 = new Ya.Metrika({ id:37286925, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/37286925" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter -->
-	</body>
+	</nav>
+	<!-- Yandex.Metrika counter -->
+	<script
+		type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function () { try { w.yaCounter37286925 = new Ya.Metrika({ id: 37286925, clickmap: true, trackLinks: true, accurateTrackBounce: true }); } catch (e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script>
+	<noscript>
+		<div><img src="https://mc.yandex.ru/watch/37286925" style="position:absolute; left:-9999px;" alt="" /></div>
+	</noscript> <!-- /Yandex.Metrika counter -->
+</body>
+
 </html>

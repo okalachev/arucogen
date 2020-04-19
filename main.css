@@ -2,6 +2,8 @@ body {
 	font-family: sans-serif;
 	padding: 0;
 	margin: 0;
+	display: flex;
+	flex-direction: row;
 }
 
 h1 {
@@ -31,7 +33,7 @@ a {
 	vertical-align: -1px;
 }
 
-.setup select {
+.setup select, .setup textarea {
 	font-weight: 300;
 	margin: 0;
 	margin-left: 20px;
@@ -45,7 +47,8 @@ a {
 }
 
 .setup .field {
-	margin: 10px 0;
+	margin: 10px 20px 20px 20px;
+	display: flex;
 }
 
 .setup label {
@@ -74,7 +77,7 @@ a {
 .marker {
 	text-align: center;
 	background: white;
-	margin: 40px;
+	margin: 0px;
 }
 
 .marker table {
@@ -126,3 +129,90 @@ footer {
 		display: block;
 	}
 }
+
+#print-layouts {
+	width: 35mm;
+	border: 1 thin gray;
+	display: flex;
+	flex-direction: column;
+}
+
+.print-layout {
+	width: 21.0mm;
+	height: 29.7mm;
+	border-style: solid;
+	border-color: gray;
+	margin: 1.5mm;
+	position: relative;
+}
+
+.print-layout:hover {
+	transform: scale(1.05);
+	transition: all .2s ease;
+}
+
+.marker-preview {
+	background-color: lightslategray;
+	position: absolute;
+}
+
+.selected > .marker-preview  {
+	background-color: rgb(50, 178, 201);
+}
+
+.printPage {
+	border-style: dashed;
+	border-width: 2px;
+	border-color: rgb(243, 193, 142);
+	height:297mm;
+	width: 210mm;
+	margin: 4px;
+	position: relative;
+}
+
+#printPages{
+	display: flex;
+	flex-direction: column;
+}
+
+.marker-container{
+	position: absolute;
+	border-style: dashed;
+	border-color: whitesmoke;
+	border-width: 2px;
+
+}
+
+.marker {
+	/* padding: 6mm; */
+	/* margin: 1mm; */
+}
+
+.page {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+@page {
+	size: A4;
+	margin: 0;
+}
+
+@media print {
+	body * {
+	  visibility: hidden;
+	}
+	#printPages, #printPages * {
+	  visibility: visible;
+	}
+	#printPages {
+	  position: absolute;
+	  left: 0;
+	  top: 0;
+	}
+	.printPage {
+		border-width: 0px;
+		margin: 0px;
+	}
+	  }
