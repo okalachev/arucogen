@@ -1,4 +1,4 @@
-function generateMarkerSvg(width, height, bits) {
+function generateMarkerSvg(width, height, bits, color) {
 	var svg = $('<svg/>').attr({
 		viewBox: '0 0 ' + (width + 2) + ' ' + (height + 2),
 		xmlns: 'http://www.w3.org/2000/svg',
@@ -11,19 +11,19 @@ function generateMarkerSvg(width, height, bits) {
 		y: 0,
 		width: width + 2,
 		height: height + 2,
-		fill: 'black'
+		fill: color
 	}).appendTo(svg);
 
 	// "Pixels"
 	for (var i = 0; i < height; i++) {
 		for (var j = 0; j < width; j++) {
-			var color = bits[i * height + j] ? 'white' : 'black';
+			var square_color = bits[i * height + j] ? 'white' : color;
 			var pixel = $('<rect/>').attr({
 				width: 1,
 				height: 1,
 				x: j + 1,
 				y: i + 1,
-				fill: color
+				fill: square_color
 			});
 			pixel.appendTo(svg);
 		}
@@ -34,7 +34,7 @@ function generateMarkerSvg(width, height, bits) {
 
 var dict;
 
-function generateArucoMarker(width, height, dictName, id) {
+function generateArucoMarker(width, height, dictName, id, size, color) {
 	console.log('Generate ArUco marker ' + dictName + ' ' + id);
 
 	var bytes = dict[dictName][id];
@@ -49,7 +49,7 @@ function generateArucoMarker(width, height, dictName, id) {
 		}
 	}
 
-	return generateMarkerSvg(width, height, bits);
+	return generateMarkerSvg(width, height, bits, color);
 }
 
 var loadDict = $.getJSON('dict.json', function(data) {
@@ -60,18 +60,20 @@ $(function() {
 	var dictSelect = $('.setup select[name=dict]');
 	var markerIdInput = $('.setup input[name=id]');
 	var sizeInput = $('.setup input[name=size]');
+	var colorInput = $('.setup input[name=color]');
 
 	function updateMarker() {
 		var markerId = Number(markerIdInput.val());
 		var size = Number(sizeInput.val());
 		var dictName = dictSelect.val();
+		var color = String(colorInput.val());
 		var width = Number(dictSelect.find('option:selected').attr('data-width'));
 		var height = Number(dictSelect.find('option:selected').attr('data-height'));
 
 		// Wait until dict data is loaded
 		loadDict.then(function() {
 			// Generate marker
-			var svg = generateArucoMarker(width, height, dictName, markerId, size);
+			var svg = generateArucoMarker(width, height, dictName, markerId, size, color);
 			svg.attr({
 				width: size + 'mm',
 				height: size + 'mm'
