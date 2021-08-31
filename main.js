@@ -1,31 +1,29 @@
 function generateMarkerSvg(width, height, bits) {
-	var svg = $('<svg/>').attr({
-		viewBox: '0 0 ' + (width + 2) + ' ' + (height + 2),
-		xmlns: 'http://www.w3.org/2000/svg',
-		'shape-rendering': 'crispEdges' // disable anti-aliasing to avoid little gaps between rects
-	});
+	var svg = document.createElement('svg');
+	svg.setAttribute('viewBox', '0 0 ' + (width + 2) + ' ' + (height + 2));
+	svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+	svg.setAttribute('shape-rendering', 'crispEdges'); // disable anti-aliasing to avoid little gaps between rects
 
 	// Background rect
-	$('<rect/>').attr({
-		x: 0,
-		y: 0,
-		width: width + 2,
-		height: height + 2,
-		fill: 'black'
-	}).appendTo(svg);
+	var rect = document.createElement('rect');
+	rect.setAttribute('x', 0);
+	rect.setAttribute('y', 0);
+	rect.setAttribute('width', width + 2);
+	rect.setAttribute('height', height + 2);
+	rect.setAttribute('fill', 'black');
+	svg.appendChild(rect);
 
 	// "Pixels"
 	for (var i = 0; i < height; i++) {
 		for (var j = 0; j < width; j++) {
 			var color = bits[i * height + j] ? 'white' : 'black';
-			var pixel = $('<rect/>').attr({
-				width: 1,
-				height: 1,
-				x: j + 1,
-				y: i + 1,
-				fill: color
-			});
-			pixel.appendTo(svg);
+			var pixel = document.createElement('rect');;
+			pixel.setAttribute('width', 1);
+			pixel.setAttribute('height', 1);
+			pixel.setAttribute('x', j + 1);
+			pixel.setAttribute('y', i + 1);
+			pixel.setAttribute('fill', color);
+			svg.appendChild(pixel);
 		}
 	}
 
@@ -52,41 +50,45 @@ function generateArucoMarker(width, height, dictName, id) {
 	return generateMarkerSvg(width, height, bits);
 }
 
-var loadDict = $.getJSON('dict.json', function(data) {
-	dict = data;
+// Fetch markers dict
+var loadDict = fetch('dict.json').then(function(res) {
+	return res.json();
+}).then(function(json) {
+	dict = json;
 });
 
-$(function() {
-	var dictSelect = $('.setup select[name=dict]');
-	var markerIdInput = $('.setup input[name=id]');
-	var sizeInput = $('.setup input[name=size]');
+function init() {
+	var dictSelect = document.querySelector('.setup select[name=dict]');
+	var markerIdInput = document.querySelector('.setup input[name=id]');
+	var sizeInput = document.querySelector('.setup input[name=size]');
+	var saveButton = document.querySelector('.save-button');
 
 	function updateMarker() {
-		var markerId = Number(markerIdInput.val());
-		var size = Number(sizeInput.val());
-		var dictName = dictSelect.val();
-		var width = Number(dictSelect.find('option:selected').attr('data-width'));
-		var height = Number(dictSelect.find('option:selected').attr('data-height'));
+		var markerId = Number(markerIdInput.value);
+		var size = Number(sizeInput.value);
+		var dictName = dictSelect.options[dictSelect.selectedIndex].value;
+		var width = Number(dictSelect.options[dictSelect.selectedIndex].getAttribute('data-width'));
+		var height = Number(dictSelect.options[dictSelect.selectedIndex].getAttribute('data-height'));
 
 		// Wait until dict data is loaded
 		loadDict.then(function() {
 			// Generate marker
 			var svg = generateArucoMarker(width, height, dictName, markerId, size);
-			svg.attr({
-				width: size + 'mm',
-				height: size + 'mm'
-			});
-			$('.marker').html(svg[0].outerHTML);
-			$('.save-button').attr({
-				href: 'data:image/svg;base64,' + btoa(svg[0].outerHTML.replace('viewbox', 'viewBox')),
-				download: dictName + '-' + markerId + '.svg'
-			});
-			$('.marker-id').html('ID ' + markerId);
+			svg.setAttribute('width', size + 'mm');
+			svg.setAttribute('height', size + 'mm');
+			document.querySelector('.marker').innerHTML = svg.outerHTML;
+			saveButton.setAttribute('href', 'data:image/svg;base64,' + btoa(svg.outerHTML.replace('viewbox', 'viewBox')));
+			saveButton.setAttribute('download', dictName + '-' + markerId + '.svg');
+			document.querySelector('.marker-id').innerHTML = 'ID ' + markerId;
 		})
 	}
 
 	updateMarker();
 
-	dictSelect.change(updateMarker);
-	$('.setup input').on('input', updateMarker);
-});
+	dictSelect.addEventListener('change', updateMarker);
+	dictSelect.addEventListener('input', updateMarker);
+	markerIdInput.addEventListener('input', updateMarker);
+	sizeInput.addEventListener('input', updateMarker);
+}
+
+init();
