@@ -1,8 +1,8 @@
-function generateMarkerSvg(width, height, bits) {
+function generateMarkerSvg(width, height, bits, fixPdfArtifacts = true) {
 	var svg = document.createElement('svg');
 	svg.setAttribute('viewBox', '0 0 ' + (width + 2) + ' ' + (height + 2));
 	svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-	svg.setAttribute('shape-rendering', 'crispEdges'); // disable anti-aliasing to avoid little gaps between rects
+	svg.setAttribute('shape-rendering', 'crispEdges');
 
 	// Background rect
 	var rect = document.createElement('rect');
@@ -16,14 +16,32 @@ function generateMarkerSvg(width, height, bits) {
 	// "Pixels"
 	for (var i = 0; i < height; i++) {
 		for (var j = 0; j < width; j++) {
-			var color = bits[i * height + j] ? 'white' : 'black';
+			var white = bits[i * height + j];
+			if (!white) continue;
+
 			var pixel = document.createElement('rect');;
 			pixel.setAttribute('width', 1);
 			pixel.setAttribute('height', 1);
 			pixel.setAttribute('x', j + 1);
 			pixel.setAttribute('y', i + 1);
-			pixel.setAttribute('fill', color);
+			pixel.setAttribute('fill', 'white');
 			svg.appendChild(pixel);
+
+			if (!fixPdfArtifacts) continue;
+
+			if ((j < width - 1) && (bits[i * height + j + 1])) {
+				pixel.setAttribute('width', 1.5);
+			}
+
+			if ((i < height - 1) && (bits[(i + 1) * height + j])) {
+				var pixel2 = document.createElement('rect');;
+				pixel2.setAttribute('width', 1);
+				pixel2.setAttribute('height', 1.5);
+				pixel2.setAttribute('x', j + 1);
+				pixel2.setAttribute('y', i + 1);
+				pixel2.setAttribute('fill', 'white');
+				svg.appendChild(pixel2);
+			}
 		}
 	}
 
