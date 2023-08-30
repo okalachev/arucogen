@@ -55,7 +55,7 @@ function generateArucoMarker(width, height, dictName, id) {
 
 	var bytes = dict[dictName][id];
 	var bits = [];
-	var bitsCount = width *  height;
+	var bitsCount = width * height;
 
 	// Parse marker's bytes
 	for (var byte of bytes) {
@@ -84,9 +84,18 @@ function init() {
 	function updateMarker() {
 		var markerId = Number(markerIdInput.value);
 		var size = Number(sizeInput.value);
-		var dictName = dictSelect.options[dictSelect.selectedIndex].value;
-		var width = Number(dictSelect.options[dictSelect.selectedIndex].getAttribute('data-width'));
-		var height = Number(dictSelect.options[dictSelect.selectedIndex].getAttribute('data-height'));
+		var option = dictSelect.options[dictSelect.selectedIndex];
+		var dictName = option.value;
+		var width = Number(option.getAttribute('data-width'));
+		var height = Number(option.getAttribute('data-height'));
+		var maxId = (Number(option.getAttribute('data-number')) || 1000) - 1;
+
+		markerIdInput.setAttribute('max', maxId);
+
+		if (markerId > maxId) {
+			markerIdInput.value = maxId;
+			markerId = maxId;
+		}
 
 		// Wait until dict data is loaded
 		loadDict.then(function() {
